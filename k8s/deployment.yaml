@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: gcp-devops-app
-          image: pioti2252/gcp-devops-showcase:1.1
+          image: pioti2252/gcp-devops-showcase:1.2
           ports:
             - containerPort: 8080
           envFrom:
