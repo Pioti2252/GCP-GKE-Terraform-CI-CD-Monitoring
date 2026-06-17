@@ -15,7 +15,7 @@ def read_root():
 
 @app.get("/health")
 def read_health():
-    return jsonify({"status": "healthy"})
+    return jsonify({"status": "healthyd"})
 
 
 @app.get("/metrics")
