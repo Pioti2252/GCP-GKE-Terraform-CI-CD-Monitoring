@@ -1,7 +1,17 @@
 from flask import Flask, jsonify
+from prometheus_flask_exporter import PrometheusMetrics
 import os
 
 app = Flask(__name__)
+
+metrics = PrometheusMetrics(app)
+
+metrics.info(
+    "app_info",
+    "Application info",
+    version=os.getenv("APP_VERSION", "dev"),
+    environment=os.getenv("APP_ENV", "local")
+)
 
 
 @app.get("/")
@@ -15,14 +25,8 @@ def read_root():
 
 @app.get("/health")
 def read_health():
-    return jsonify({"status": "healthydds"})
-
-
-@app.get("/metrics")
-def read_metrics():
     return jsonify({
-        "metrics": "some metrics data",
-        "app_version": os.getenv("APP_VERSION", "dev")
+        "status": "healthy"
     })
 
 
