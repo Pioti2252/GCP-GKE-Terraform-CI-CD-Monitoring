@@ -2,11 +2,14 @@ apiVersion: v1
 kind: Service
 metadata:
   name: gcp-devops-service
+  labels:
+    app: gcp-devops-app
 spec:
   type: LoadBalancer
   selector:
     app: gcp-devops-app
   ports:
-    - protocol: TCP
+    - name: http
+      protocol: TCP
       port: 80
       targetPort: 8080
