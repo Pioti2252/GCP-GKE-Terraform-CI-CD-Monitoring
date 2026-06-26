@@ -82,3 +82,23 @@ jobs:
           kubectl get pods
           kubectl get service
           kubectl get hpa
+
+      - name: Smoke test - health endpoint
+        run: |
+          EXTERNAL_IP=$(kubectl get service gcp-devops-service -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+          echo "External IP: $EXTERNAL_IP"
+
+          for i in {1..30}; do
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://$EXTERNAL_IP/health || true)
+            echo "Attempt $i: HTTP status $STATUS"
+
+            if [ "$STATUS" = "200" ]; then
+              echo "Health check passed"
+              exit 0
+            fi
+
+            sleep 10
+          done
+
+          echo "Health check failed"
+          exit 1
