@@ -30,9 +30,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run basic Flask import check
+      - name: Run tests
         run: |
-          python -m py_compile app/main.py
+          cd app
+          python -m pytest
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v4
